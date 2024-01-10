@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include "snake.h"
+#include "segment.h"
 
 const int SCREEN_WIDTH = 400;
 const int SCREEN_HEIGHT = 400;

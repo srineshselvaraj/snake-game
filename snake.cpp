@@ -21,24 +21,32 @@ void Snake::handleEvent(SDL_Event &e){
     if(e.type = SDL_KEYDOWN && e.key.repeat == 0){
         switch(e.key.keysym.sym){
             case SDLK_UP:
-                vY = 0;
-                vY -= VELOCITY;
-                vX = 0;
+                if(vY <= 0){
+                    vY = 0;
+                    vY -= VELOCITY;
+                    vX = 0;
+                }
                 break;
             case SDLK_DOWN:
-                vY = 0;
-                vY += VELOCITY;
-                vX = 0;
+                if(vY >= 0){
+                    vY = 0;
+                    vY += VELOCITY;
+                    vX = 0;
+                }
                 break;
             case SDLK_LEFT:
-                vX = 0;
-                vX -= VELOCITY;
-                vY = 0;
+                if(vX <= 0){
+                    vX = 0;
+                    vX -= VELOCITY;
+                    vY = 0;
+                }
                 break;
             case SDLK_RIGHT:
-                vX = 0;
-                vX += VELOCITY;
-                vY = 0;
+                if(vX >= 0){
+                    vX = 0;
+                    vX += VELOCITY;
+                    vY = 0;
+                }
                 break;
         }
     }
