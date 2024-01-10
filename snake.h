@@ -3,10 +3,10 @@
 
 class Snake{
     private:
-        int length, vX, vY, x, y;    
+        float length, vX, vY, x, y;    
     public:
         static const int UNIT_LENGTH = 20;
-        static const int VELOCITY = 20;
+        static constexpr float VELOCITY = 0.05;
         Snake();
         void spawn(SDL_Renderer* renderer, int width, int height);
         void handleEvent(SDL_Event &e);
