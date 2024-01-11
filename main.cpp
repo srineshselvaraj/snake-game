@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include "snake.h"
+#include "food.h"
 
 const int SCREEN_WIDTH = 400;
 const int SCREEN_HEIGHT = 400;
@@ -24,10 +25,12 @@ int main(int argc, char* args[]){
 
             renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
             Snake snake;
+            Food food;
 
             SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
             SDL_RenderClear(renderer);
             snake.spawn(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+            food.spawn(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
             SDL_Event e;
             bool quit = false;
@@ -46,6 +49,7 @@ int main(int argc, char* args[]){
                     SDL_RenderClear(renderer);
 
                     snake.spawn(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+                    food.spawn(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
                 }
             }
         }
