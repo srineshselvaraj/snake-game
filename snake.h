@@ -10,7 +10,7 @@ class Snake{
         std::vector<Segment> segments;
     public:
         static const int UNIT_LENGTH = 20;
-        static constexpr float VELOCITY = 0.05;
+        static constexpr float VELOCITY = 20;
         Snake();
         void spawn(SDL_Renderer* renderer, int width, int height);
         Segment* makeSegments(int len);

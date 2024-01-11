@@ -40,11 +40,13 @@ int main(int argc, char* args[]){
                     snake.handleEvent(e);
                 }
 
-                snake.move(SCREEN_WIDTH, SCREEN_HEIGHT);
-                SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
-                SDL_RenderClear(renderer);
+                if(SDL_GetTicks() % 250 == 0){
+                    snake.move(SCREEN_WIDTH, SCREEN_HEIGHT);
+                    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+                    SDL_RenderClear(renderer);
 
-                snake.spawn(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+                    snake.spawn(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+                }
             }
         }
     }
