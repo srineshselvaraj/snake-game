@@ -5,6 +5,7 @@ class Segment{
     private:
         int x, y;
     public:
+        Segment();
         Segment(int xPos, int yPos);
         int getX();
         int getY();
