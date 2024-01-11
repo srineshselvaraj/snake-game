@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
+#include "snake.h"
 
 const int SCREEN_WIDTH = 400;
 const int SCREEN_HEIGHT = 400;
@@ -22,6 +23,11 @@ int main(int argc, char* args[]){
             SDL_UpdateWindowSurface(window);*/
 
             renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+            Snake snake;
+
+            SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+            SDL_RenderClear(renderer);
+            snake.spawn(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
             SDL_Event e;
             bool quit = false;
@@ -30,15 +36,17 @@ int main(int argc, char* args[]){
                     if(e.type == SDL_QUIT){
                         quit = true;
                     }
+
+                    snake.handleEvent(e);
                 }
 
-                SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
-                SDL_RenderClear(renderer);
+                if(SDL_GetTicks() % 250 == 0){
+                    snake.move(SCREEN_WIDTH, SCREEN_HEIGHT);
+                    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+                    SDL_RenderClear(renderer);
 
-                SDL_Rect snake = {0, 0, SCREEN_WIDTH / 20, SCREEN_HEIGHT / 20};
-                SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
-                SDL_RenderFillRect(renderer, &snake);
-                SDL_RenderPresent(renderer);
+                    snake.spawn(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+                }
             }
         }
     }
