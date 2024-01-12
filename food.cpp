@@ -7,6 +7,13 @@ Food::Food(){
     y = 200;
 }
 
+int Food::getX(){
+    return x;
+}
+int Food::getY(){
+    return y;
+}
+
 void Food::setRandomPosition(){
     int randX = rand() % 40;
     int randY = rand() % 40;

@@ -45,6 +45,9 @@ int main(int argc, char* args[]){
 
                 if(SDL_GetTicks() % 250 == 0){
                     snake.move(SCREEN_WIDTH, SCREEN_HEIGHT);
+                    if(snake.hitFood(snake.getX(), snake.getY(), food.getX(), food.getY())){
+                        food.setRandomPosition();
+                    }
                     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
                     SDL_RenderClear(renderer);
 

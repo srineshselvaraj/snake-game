@@ -12,6 +12,14 @@ Snake::Snake(){
     segments.push_back(Segment(x-40, y));
 }
 
+int Snake::getX(){
+    return x;
+}
+
+int Snake::getY(){
+    return y;
+}
+
 void Snake::spawn(SDL_Renderer* renderer, int width, int height){
     SDL_Rect snake = {(int)x, (int)y, width / 20, height / 20};
     SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
@@ -70,11 +78,11 @@ void Snake::handleEvent(SDL_Event &e){
 void Snake::move(int width, int height){
     if(vX != 0 || vY != 0){
         for(int i = length - 1; i > 0; i--){
-            std::cout << segments[i].getX() << " ";
+            //std::cout << segments[i].getX() << " ";
             segments[i].setPosition(segments[i-1].getX(), segments[i-1].getY());
         }
         segments[0].setPosition(x, y);
-        std::cout << "" << std::endl;
+        //std::cout << "" << std::endl;
     }
     x += vX;
     if((x < 0) || (x + UNIT_LENGTH > width)){
@@ -85,4 +93,25 @@ void Snake::move(int width, int height){
     if((y < 0) || (y + UNIT_LENGTH > height)){
         y -= vY;
     }
+}
+
+bool Snake::hitFood(int x1, int y1, int x2, int y2){
+    /*int leftA = x1;
+    int rightA = x1 + (width / 20);
+    int topA = y1;
+    int bottomA = y1 + (height / 20);
+    int leftB = x2;
+    int rightB = x2 + (width / 20);
+    int topB = y2;
+    int bottomB = y2 + (height / 20);
+
+    if(bottomA >= topB || topA <= bottomB || rightA <= leftB || leftA >= rightB){
+        return false;
+    }
+    */
+    if(x1 == x2 && y1 == y2){
+        //std::cout << "collision" << std::endl;
+        return true;
+    }
+    return false;
 }
