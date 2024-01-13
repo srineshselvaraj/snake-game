@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <stdio.h>
 #include "snake.h"
 #include "food.h"
@@ -32,10 +33,23 @@ int main(int argc, char* args[]){
             snake.spawn(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
             food.spawn(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+            if( TTF_Init() == -1 )
+            {
+                printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+            }
+
+            TTF_Font* Sans = TTF_OpenFont("roboto.ttf", 64);
+            SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, "0", {255, 255, 255});
+            SDL_Texture* message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+            SDL_QueryTexture(message, NULL, NULL, NULL, NULL);
+            SDL_Rect messageRect = {0, 0, 30, 50};
+
             SDL_Event e;
             bool quit = false;
             bool gameOver = false;
             while(quit == false){
+                SDL_RenderCopy(renderer, message, NULL, &messageRect);
+                SDL_RenderPresent(renderer);
                 while(SDL_PollEvent(&e)){
                     if(e.type == SDL_QUIT){
                         quit = true;
@@ -44,7 +58,7 @@ int main(int argc, char* args[]){
                     snake.handleEvent(e);
                 }
 
-                if(SDL_GetTicks() % 100 == 0){
+                if(SDL_GetTicks() % 200 == 0){
                     snake.move(SCREEN_WIDTH, SCREEN_HEIGHT);
                     if(snake.hitSegments() || snake.hitWall(SCREEN_WIDTH, SCREEN_HEIGHT)){
                         gameOver = true;
@@ -61,8 +75,11 @@ int main(int argc, char* args[]){
                     }
                 }
             }
+            SDL_FreeSurface(surfaceMessage);
+            SDL_DestroyTexture(message);
         }
     }
+    
     SDL_DestroyWindow(window);
     SDL_Quit();
     

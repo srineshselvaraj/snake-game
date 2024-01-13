@@ -111,6 +111,7 @@ void Snake::move(int width, int height){
         y -= vY;
     }
     */
+    //std::cout << x << " " << y << std::endl;
 }
 
 bool Snake::hitFood(int x1, int y1, int x2, int y2){
