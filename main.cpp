@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include "snake.h"
+#include "food.h"
 
 const int SCREEN_WIDTH = 400;
 const int SCREEN_HEIGHT = 400;
@@ -24,13 +25,16 @@ int main(int argc, char* args[]){
 
             renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
             Snake snake;
+            Food food;
 
             SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
             SDL_RenderClear(renderer);
             snake.spawn(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+            food.spawn(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
             SDL_Event e;
             bool quit = false;
+            bool gameOver = false;
             while(quit == false){
                 while(SDL_PollEvent(&e)){
                     if(e.type == SDL_QUIT){
@@ -40,12 +44,21 @@ int main(int argc, char* args[]){
                     snake.handleEvent(e);
                 }
 
-                if(SDL_GetTicks() % 250 == 0){
+                if(SDL_GetTicks() % 100 == 0){
                     snake.move(SCREEN_WIDTH, SCREEN_HEIGHT);
-                    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
-                    SDL_RenderClear(renderer);
+                    if(snake.hitSegments() || snake.hitWall(SCREEN_WIDTH, SCREEN_HEIGHT)){
+                        gameOver = true;
+                    }
+                    if(!gameOver){
+                        if(snake.hitFood(snake.getX(), snake.getY(), food.getX(), food.getY())){
+                            food.setRandomPosition();
+                        }
+                        SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+                        SDL_RenderClear(renderer);
 
-                    snake.spawn(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+                        snake.spawn(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+                        food.spawn(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+                    }
                 }
             }
         }
