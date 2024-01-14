@@ -150,3 +150,22 @@ bool Snake::hitWall(int width, int height){
     }
     return false;
 }
+
+void Snake::addLength(){
+    Segment segment;
+    /*if(direction == "up"){
+        segment.setPosition(segments[length - 1].getX(), segments[length - 1].getY() - 20);
+    }
+    else if(direction == "down"){
+        segment.setPosition(segments[length - 1].getX(), segments[length - 1].getY() + 20);
+    }
+    else if(direction == "left"){
+        segment.setPosition(segments[length - 1].getX() - 20, segments[length - 1].getY());
+    }
+    else if(direction == "right"){
+        segment.setPosition(segments[length - 1].getX() + 20, segments[length - 1].getY());
+    }*/
+    segment.setPosition(x, y);
+    length++;
+    segments.push_back(segment);
+}

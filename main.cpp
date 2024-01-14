@@ -48,8 +48,8 @@ int main(int argc, char* args[]){
             bool quit = false;
             bool gameOver = false;
             while(quit == false){
-                SDL_RenderCopy(renderer, message, NULL, &messageRect);
-                SDL_RenderPresent(renderer);
+                //SDL_RenderCopy(renderer, message, NULL, &messageRect);
+                //SDL_RenderPresent(renderer);
                 while(SDL_PollEvent(&e)){
                     if(e.type == SDL_QUIT){
                         quit = true;
@@ -66,6 +66,7 @@ int main(int argc, char* args[]){
                     if(!gameOver){
                         if(snake.hitFood(snake.getX(), snake.getY(), food.getX(), food.getY())){
                             food.setRandomPosition();
+                            snake.addLength();
                         }
                         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
                         SDL_RenderClear(renderer);
