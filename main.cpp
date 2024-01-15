@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "snake.h"
 #include "food.h"
+#include "menu.h"
 
 const int SCREEN_WIDTH = 400;
 const int SCREEN_HEIGHT = 400;
@@ -38,11 +39,8 @@ int main(int argc, char* args[]){
                 printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
             }
 
-            TTF_Font* Sans = TTF_OpenFont("roboto.ttf", 64);
-            SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, "0", {255, 255, 255});
-            SDL_Texture* message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
-            SDL_QueryTexture(message, NULL, NULL, NULL, NULL);
-            SDL_Rect messageRect = {0, 0, 30, 50};
+            Menu menu;
+            SDL_Texture* scoreTexture = menu.initializeScoreText(renderer);
 
             SDL_Event e;
             bool quit = false;
@@ -67,6 +65,9 @@ int main(int argc, char* args[]){
                         if(snake.hitFood(snake.getX(), snake.getY(), food.getX(), food.getY())){
                             food.setRandomPosition();
                             snake.addLength();
+                            menu.addScore();
+                            menu.destroyText(scoreTexture);
+                            scoreTexture = menu.initializeScoreText(renderer);
                         }
                         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
                         SDL_RenderClear(renderer);
@@ -75,9 +76,9 @@ int main(int argc, char* args[]){
                         food.spawn(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
                     }
                 }
+                menu.updateScoreText(renderer, scoreTexture);
             }
-            SDL_FreeSurface(surfaceMessage);
-            SDL_DestroyTexture(message);
+            menu.destroyText(scoreTexture);
         }
     }
     
