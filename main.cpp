@@ -56,7 +56,7 @@ int main(int argc, char* args[]){
                     snake.handleEvent(e);
                 }
 
-                if(SDL_GetTicks() % 200 == 0){
+                if(SDL_GetTicks() % 250 == 0){
                     snake.move(SCREEN_WIDTH, SCREEN_HEIGHT);
                     if(snake.hitSegments() || snake.hitWall(SCREEN_WIDTH, SCREEN_HEIGHT)){
                         gameOver = true;
