@@ -1,7 +1,9 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <stdio.h>
 #include "snake.h"
 #include "food.h"
+#include "menu.h"
 
 const int SCREEN_WIDTH = 400;
 const int SCREEN_HEIGHT = 400;
@@ -32,10 +34,20 @@ int main(int argc, char* args[]){
             snake.spawn(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
             food.spawn(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+            if( TTF_Init() == -1 )
+            {
+                printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+            }
+
+            Menu menu;
+            SDL_Texture* scoreTexture = menu.initializeScoreText(renderer);
+
             SDL_Event e;
             bool quit = false;
             bool gameOver = false;
             while(quit == false){
+                //SDL_RenderCopy(renderer, message, NULL, &messageRect);
+                //SDL_RenderPresent(renderer);
                 while(SDL_PollEvent(&e)){
                     if(e.type == SDL_QUIT){
                         quit = true;
@@ -44,7 +56,7 @@ int main(int argc, char* args[]){
                     snake.handleEvent(e);
                 }
 
-                if(SDL_GetTicks() % 100 == 0){
+                if(SDL_GetTicks() % 250 == 0){
                     snake.move(SCREEN_WIDTH, SCREEN_HEIGHT);
                     if(snake.hitSegments() || snake.hitWall(SCREEN_WIDTH, SCREEN_HEIGHT)){
                         gameOver = true;
@@ -52,6 +64,10 @@ int main(int argc, char* args[]){
                     if(!gameOver){
                         if(snake.hitFood(snake.getX(), snake.getY(), food.getX(), food.getY())){
                             food.setRandomPosition();
+                            snake.addLength();
+                            menu.addScore();
+                            menu.destroyText(scoreTexture);
+                            scoreTexture = menu.initializeScoreText(renderer);
                         }
                         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
                         SDL_RenderClear(renderer);
@@ -60,9 +76,12 @@ int main(int argc, char* args[]){
                         food.spawn(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
                     }
                 }
+                menu.updateScoreText(renderer, scoreTexture);
             }
+            menu.destroyText(scoreTexture);
         }
     }
+    
     SDL_DestroyWindow(window);
     SDL_Quit();
     

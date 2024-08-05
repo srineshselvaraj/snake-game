@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <random>
 #include "food.h"
 
 Food::Food(){
@@ -15,8 +16,13 @@ int Food::getY(){
 }
 
 void Food::setRandomPosition(){
-    int randX = rand() % 40;
-    int randY = rand() % 40;
+    //int randX = rand() % 40;
+    //int randY = rand() % 40;
+    std::uniform_int_distribution<int> positions(0, 39);
+    std::random_device rd;
+    std::mt19937 rng(rd());
+    int randX = positions(rng);
+    int randY = positions(rng);
     if(randX % 2 == 1){
         x = (randX - 1) * 10;
     }
